@@ -1,0 +1,59 @@
+@import '../mixins';
+.control {
+	&__noise {
+		button {
+			margin-left: 1rem;
+			padding: 0.5rem 2.5rem;
+		}
+	}
+	&__visibility {
+		top: 0.5rem;
+		right: 0.5rem;
+		position: fixed;
+		z-index: 110;
+	}
+	&__content {
+		left: 0;
+		right: 0;
+		top: -32rem;
+		z-index: 100;
+		padding: 1rem;
+		position: fixed;
+		padding-top: 3rem;
+		background-color: rgba(#311b92, 0.4);
+		transition: top 300ms ease-in-out;
+		@include on("lg") {
+			padding-top: 1rem;
+		}
+		&.visible {
+			top: 0;
+		}
+	}
+}
+
+.audio {
+	border: 2px solid rgba(white, 0.4);
+	border-radius: 0.25rem;
+	max-width: 28rem;
+	margin: 0 auto;
+	&__header {
+		margin: 2px;
+		margin-bottom: 0;
+		text-align: center;
+		padding: 0.2rem 1rem;
+		border-top-left-radius: 0.25rem;
+		border-top-right-radius: 0.25rem;
+		background-color: rgba(#9575cd, 0.75);
+	}
+	&__control {
+		padding: 0.2rem 1rem;
+	}
+	.MuiSlider-thumb,
+	.MuiSlider-track,
+	.MuiSlider-rail {
+		background-color: white !important;
+	}
+	.MuiCircularProgress-colorPrimary {
+		color: white !important;
+	}
+}

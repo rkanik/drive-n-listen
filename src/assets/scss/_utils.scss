@@ -1,0 +1,28 @@
+.w-full {
+	width: 100%;
+}
+.h-full {
+	height: 100%;
+}
+.relative {
+	position: relative;
+}
+.flex {
+	display: flex;
+}
+.justify-center {
+	justify-content: center;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.items-center {
+	align-items: center;
+}
+.flex-none {
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+.ws-nowrap {
+	white-space: nowrap;
+}

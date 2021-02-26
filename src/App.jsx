@@ -45,7 +45,7 @@ const App = () => {
 	const [radios] = useState(radiosData)
 	const [radio, setRadio] = useState({
 		...radiosData[0],
-		volume: 0,
+		volume: 0.5,
 		isPlaying: false,
 		isLoading: true,
 		isMuted: false,

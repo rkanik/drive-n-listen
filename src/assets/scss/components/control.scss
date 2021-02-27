@@ -1,9 +1,11 @@
-@import '../mixins';
+@import "../mixins";
 .control {
+	.MuiButton-contained {
+		background-color: #6d00f8 !important;
+	}
 	&__noise {
 		button {
-			margin-left: 1rem;
-			padding: 0.5rem 2.5rem;
+			padding: 0.5rem 2.8rem;
 		}
 	}
 	&__visibility {
@@ -20,13 +22,24 @@
 		padding: 1rem;
 		position: fixed;
 		padding-top: 3rem;
-		background-color: rgba(#311b92, 0.4);
+		background-color: rgba(#2d0d64, 0.75);
 		transition: top 300ms ease-in-out;
 		@include on("lg") {
 			padding-top: 1rem;
 		}
 		&.visible {
 			top: 0;
+		}
+	}
+	&__speeds {
+		button {
+			padding: 2px 6.4px !important;
+			min-width: auto !important;
+			color: white !important;
+			border-color: #882dff;
+		}
+		button:not(:first-child) {
+			margin-left: 6px;
 		}
 	}
 }
@@ -43,7 +56,7 @@
 		padding: 0.2rem 1rem;
 		border-top-left-radius: 0.25rem;
 		border-top-right-radius: 0.25rem;
-		background-color: rgba(#9575cd, 0.75);
+		background-color: rgba(#862aff, 0.75);
 	}
 	&__control {
 		padding: 0.2rem 1rem;

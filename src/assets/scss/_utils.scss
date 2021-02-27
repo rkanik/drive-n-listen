@@ -10,6 +10,9 @@
 .flex {
 	display: flex;
 }
+.flex-col {
+	flex-direction: column;
+}
 .justify-center {
 	justify-content: center;
 }
@@ -25,4 +28,23 @@
 }
 .ws-nowrap {
 	white-space: nowrap;
+}
+.mt-4 {
+	margin-top: 1rem !important;
+}
+.ml-4 {
+	margin-left: 1rem !important;
+}
+.lg\:ml-8 {
+	@include on("lg") {
+		margin-left: 2rem !important;
+	}
+}
+.lg\:mt-0 {
+	@include on("lg") {
+		margin-top: 0 !important;
+	}
+}
+.ml-auto {
+	margin-left: auto !important;
 }

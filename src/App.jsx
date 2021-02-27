@@ -12,7 +12,6 @@ import {
 	radios as radiosData,
 	videos as videosData
 } from './data'
-import { StarRate } from '@material-ui/icons';
 
 const App = () => {
 
@@ -46,8 +45,8 @@ const App = () => {
 	// Radio states
 	const [radios] = useState(radiosData)
 	const [radio, setRadio] = useState({
-		...radiosData[0],
-		volume: 0.5,
+		...radios.find(r => r.cityId === video.id),
+		volume: 0.05,
 		isPlaying: false,
 		isLoading: true,
 		isMuted: false,
@@ -72,6 +71,12 @@ const App = () => {
 		}))
 	}
 
+	const getRadios = cityId => {
+		return radios.filter(
+			r => r.cityId === cityId
+		)
+	}
+
 	// Changing to new video
 	const handleChangeCity = (city) => {
 		let newVideo = videos.find(
@@ -82,6 +87,11 @@ const App = () => {
 			isMuted: true,
 			showNoise: true,
 			wasMuted: video.isMuted,
+		})
+		_setRadio({
+			...getRadios(
+				newVideo.id
+			)[0]
 		})
 	}
 
@@ -94,8 +104,10 @@ const App = () => {
 
 	const handleRadioChange = ({ isNext, isPrev }) => {
 
+		const cityRadios = getRadios(video.id)
+
 		// Finding index of currently playing radio index
-		let cIndex = radios.findIndex(r => r.url === radio.url)
+		let cIndex = cityRadios.findIndex(r => r.id === radio.id)
 
 		// Returning is there is no radio found
 		if (cIndex === -1) return
@@ -104,10 +116,10 @@ const App = () => {
 		cIndex = isPrev ? cIndex - 1 : isNext ? cIndex + 1 : cIndex
 
 		// Fixing current index if it goes out of bound of radios array
-		cIndex = cIndex < 0 ? radios.length - 1 : cIndex >= radios.length ? 0 : cIndex
+		cIndex = cIndex < 0 ? cityRadios.length - 1 : cIndex >= cityRadios.length ? 0 : cIndex
 
 		// Setting the new radio of current index
-		_setRadio({ ...radios[cIndex], isLoading: true })
+		_setRadio({ ...cityRadios[cIndex], isLoading: true })
 	}
 
 	return (

@@ -35,16 +35,11 @@ const Control = ({
 	onRadioVolume, onRadioTogglePlay
 }) => {
 
-	const [area, setArea] = useState('');
+	const [area, setArea] = useState(0);
 	const [playbackRates] = useState([
-		{ value: 0.25, text: '0.25' },
-		{ value: 0.5, text: '0.5' },
-		{ value: 0.75, text: '0.75' },
-		{ value: 1, text: 'Normal' },
-		{ value: 1.25, text: '1.25' },
-		{ value: 1.5, text: '1.5' },
-		{ value: 1.75, text: '1.75' },
-		{ value: 2, text: '2' },
+		{ value: 1, text: '1x' },
+		{ value: 1.5, text: '1.5x' },
+		{ value: 2, text: '2x' },
 	]);
 	const [isVisible, setIsVisible] = useState(true)
 
@@ -64,89 +59,112 @@ const Control = ({
 			</div>
 			<div className={`control__content${isVisible ? ' visible' : ''}`}>
 				<Container>
-					<Grid container spacing={3}>
-						<Grid item sm={12} lg={1}>
+					<Grid container spacing={5}>
+						<Grid item sm={12} lg={2}>
 							<div className="h-full flex items-center">
-								<Typography>Text</Typography>
+								<Typography variant='h6' className='ws-nowrap'>Drive and Listen</Typography>
 							</div>
 						</Grid>
-						<Grid item xs={12} sm={6} lg={2}>
-							<div className="h-full flex items-center justify-center">
-								<FormControl variant="outlined" className='w-full'>
-									<InputLabel id="select-city-label">City</InputLabel>
-									<Select
-										label="City"
-										id="select-city"
-										labelId="select-city-label"
-										value={video.city}
-										onChange={e => onChangeCity(e.target.value)}
+						<Grid item xs={12} sm={6} md={4} lg={3}>
+							<div className='flex flex-col justify-center h-full'>
+								<div className='flex items-center'>
+									<Typography
+										variant='body2'
+										className='flex-none'
+										style={{ width: '40%' }}
 									>
-										{video.cities.map((city, cityIndex) => (
-											<MenuItem
-												key={cityIndex}
-												value={city.name}
-											>
-												{city.name}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-							</div>
-						</Grid>
-						<Grid item xs={12} sm={6} lg={2}>
-							<div className="h-full flex items-center justify-center">
-								<FormControl variant="outlined" className='w-full'>
-									<InputLabel id="select-area-label">Area</InputLabel>
-									<Select
-										labelId="select-area-label"
-										id="select-area"
-										value={area}
-										onChange={handleChangeArea}
-										label="Area"
+										Video Source
+									</Typography>
+									<FormControl variant="outlined" className='w-full'>
+										<InputLabel id="select-city-label">City</InputLabel>
+										<Select
+											label="City"
+											id="select-city"
+											labelId="select-city-label"
+											value={video.city}
+											onChange={e => onChangeCity(e.target.value)}
+										>
+											{video.cities.map((city, cityIndex) => (
+												<MenuItem
+													key={cityIndex}
+													value={city.name}
+												>
+													{city.name}
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</div>
+								<div className='flex items-center mt-4'>
+									<Typography
+										variant='body2'
+										className='flex-none'
+										style={{ width: '40%' }}
 									>
-										<MenuItem value={10}>Ten</MenuItem>
-										<MenuItem value={20}>Twenty</MenuItem>
-										<MenuItem value={30}>Thirty</MenuItem>
-									</Select>
-								</FormControl>
+										Code Source
+									</Typography>
+									<FormControl variant="outlined" className='w-full'>
+										<InputLabel id="select-area-label">Area</InputLabel>
+										<Select
+											labelId="select-area-label"
+											id="select-area"
+											value={area}
+											onChange={handleChangeArea}
+											label="Area"
+										>
+											<MenuItem value={0}>Where to go?</MenuItem>
+										</Select>
+									</FormControl>
+								</div>
 							</div>
 						</Grid>
-						<Grid item xs={12} sm={6} lg={1}>
-							<div className="h-full flex items-center justify-center">
-								<FormControl variant="outlined" className='w-full'>
-									<InputLabel id="select-area-label">Area</InputLabel>
-									<Select
-										labelId="select-area-label"
-										id="select-area"
-										value={video.playbackRate}
-										onChange={e => onPlaybackRate(+e.target.value)}
-										label="Area"
+						<Grid item xs={12} sm={6} md={4} lg={3}>
+							<div className='h-full flex flex-col items-center justify-center'>
+								<div className="control__noise h-full w-full flex items-center">
+									<Typography
+										variant='body2'
+										className='ws-nowrap'
+										style={{ width: '35%' }}
 									>
-										{playbackRates.map(rate => (
-											<MenuItem
-												key={rate.value}
-												value={rate.value}
-											>
-												{rate.text}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
+										Street Noise
+									</Typography>
+									<Button
+										color="primary"
+										variant="contained"
+										className='ml-auto'
+										onClick={() => onStreetNoise && onStreetNoise()}
+									>
+										{video.isMuted ? 'OFF' : 'ON'}
+									</Button>
+								</div>
+								<div className='control__speeds h-full w-full flex items-center mt-4 lg:mt-0'>
+									<Typography
+										variant='body2'
+										className='ws-nowrap flex-none'
+										style={{ width: '35%' }}
+									>
+										Speed
+									</Typography>
+									{playbackRates.map((rate, i) => (
+										<Button
+											size='small'
+											color="primary"
+											key={rate.value}
+											variant={
+												video.playbackRate === rate.value
+													? "contained"
+													: "outlined"
+											}
+											className={i === 0 ? 'ml-auto' : ''}
+											onClick={() => onPlaybackRate(rate.value)}
+										>
+											{rate.text}
+										</Button>
+									))}
+								</div>
 							</div>
 						</Grid>
-						<Grid item xs={12} lg={2}>
-							<div className="control__noise h-full flex items-center justify-center">
-								<Typography className='ws-nowrap'>Street Noise</Typography>
-								<Button
-									color="primary"
-									variant="contained"
-									onClick={() => onStreetNoise && onStreetNoise()}
-								>
-									{video.isMuted ? 'OFF' : 'ON'}
-								</Button>
-							</div>
-						</Grid>
-						<Grid item xs={12} lg={4}>
+						<Grid item xs={12} md={4}>
 							<div className='audio'>
 								<div className="audio__header">
 									<Typography variant="subtitle1">{radio.name}</Typography>

@@ -29,12 +29,23 @@ const Control = ({
 	radio, video,
 
 	onStreetNoise, onChangeCity,
+	onPlaybackRate,
 
 	onRadioNext, onRadioPrev,
 	onRadioVolume, onRadioTogglePlay
 }) => {
 
 	const [area, setArea] = useState('');
+	const [playbackRates] = useState([
+		{ value: 0.25, text: '0.25' },
+		{ value: 0.5, text: '0.5' },
+		{ value: 0.75, text: '0.75' },
+		{ value: 1, text: 'Normal' },
+		{ value: 1.25, text: '1.25' },
+		{ value: 1.5, text: '1.5' },
+		{ value: 1.75, text: '1.75' },
+		{ value: 2, text: '2' },
+	]);
 	const [isVisible, setIsVisible] = useState(true)
 
 	const handleChangeArea = (event) => {
@@ -54,7 +65,7 @@ const Control = ({
 			<div className={`control__content${isVisible ? ' visible' : ''}`}>
 				<Container>
 					<Grid container spacing={3}>
-						<Grid item sm={12} lg={2}>
+						<Grid item sm={12} lg={1}>
 							<div className="h-full flex items-center">
 								<Typography>Text</Typography>
 							</div>
@@ -96,6 +107,29 @@ const Control = ({
 										<MenuItem value={10}>Ten</MenuItem>
 										<MenuItem value={20}>Twenty</MenuItem>
 										<MenuItem value={30}>Thirty</MenuItem>
+									</Select>
+								</FormControl>
+							</div>
+						</Grid>
+						<Grid item xs={12} sm={6} lg={1}>
+							<div className="h-full flex items-center justify-center">
+								<FormControl variant="outlined" className='w-full'>
+									<InputLabel id="select-area-label">Area</InputLabel>
+									<Select
+										labelId="select-area-label"
+										id="select-area"
+										value={video.playbackRate}
+										onChange={e => onPlaybackRate(+e.target.value)}
+										label="Area"
+									>
+										{playbackRates.map(rate => (
+											<MenuItem
+												key={rate.value}
+												value={rate.value}
+											>
+												{rate.text}
+											</MenuItem>
+										))}
 									</Select>
 								</FormControl>
 							</div>

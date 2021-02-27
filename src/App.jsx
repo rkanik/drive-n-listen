@@ -12,6 +12,7 @@ import {
 	radios as radiosData,
 	videos as videosData
 } from './data'
+import { StarRate } from '@material-ui/icons';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
 		loop: true,
 		volume: 0.9,
 		isMuted: true,
+		playbackRate: 1,
 		wasMuted: true,
 		showNoise: true,
 		controls: false,
@@ -53,7 +55,7 @@ const App = () => {
 
 
 	// it's just a helper function
-	// instead of calling setVideo(radio => ({...radio,...changes}))
+	// instead of calling setVideo(video => ({...video,...changes}))
 	// we can simply call _setVideo({...})
 	const _setVideo = (changes) => {
 		setVideo(prevVideo => ({
@@ -118,6 +120,7 @@ const App = () => {
 				video={video}
 
 				onChangeCity={handleChangeCity}
+				onPlaybackRate={playbackRate => _setVideo({ playbackRate })}
 				onStreetNoise={() => _setVideo({ isMuted: !video.isMuted })}
 
 				onRadioVolume={v => _setRadio({ volume: v })}
@@ -136,6 +139,7 @@ const App = () => {
 					muted={video.isMuted}
 					playing={video.isPlaying}
 					controls={video.controls}
+					playbackRate={video.playbackRate}
 					onBuffer={() => _setVideo({ showNoise: true })}
 					onBufferEnd={() => _setVideo({ showNoise: false })}
 					onReady={handleYTPlayerOnReady}

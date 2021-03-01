@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -10,24 +9,30 @@ import mui from './plugins/materialui';
 
 import {
 	radios as radiosData,
-	videos as videosData
+	cities as citiesData,
+	areas as areasData
 } from './data'
 
 const App = () => {
 
-	// Initializing dark theme
-	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-	const theme = React.useMemo(
-		() => createMuiTheme(
-			mui.getTheme(prefersDarkMode)
-		),
-		[prefersDarkMode],
-	);
+	//Initializing dark theme
+	const theme = React.useMemo(() => createMuiTheme(mui.getTheme()), []);
+
+	const [player, setPlayer] = useState(null)
+
+	const [cities] = useState(citiesData)
+	const [city, setCity] = useState(cities[0])
+
+	const [areas] = useState(areasData)
+	const [cityAreas, setCityAreas] = useState(
+		areas.filter(
+			a => a.cityId === city.id
+		)
+	)
+	const [area, setArea] = useState(areas[0])
 
 	// Video States
-	const [videos] = useState(videosData)
 	const [video, setVideo] = useState({
-		...videosData[0],
 		loop: true,
 		volume: 0.9,
 		isMuted: true,
@@ -36,22 +41,19 @@ const App = () => {
 		showNoise: true,
 		controls: false,
 		isPlaying: false,
-		cities: videos.map(v => ({
-			value: v.city,
-			name: v.city
-		}))
 	})
 
 	// Radio states
 	const [radios] = useState(radiosData)
 	const [radio, setRadio] = useState({
-		...radios.find(r => r.cityId === video.id),
+		...radios.find(
+			r => r.areaId === area.id
+		),
 		volume: 0.05,
 		isPlaying: false,
 		isLoading: true,
 		isMuted: false,
 	})
-
 
 	// it's just a helper function
 	// instead of calling setVideo(video => ({...video,...changes}))
@@ -71,31 +73,47 @@ const App = () => {
 		}))
 	}
 
-	const getRadios = cityId => {
+	const getRadios = areaId => {
 		return radios.filter(
-			r => r.cityId === cityId
+			r => r.areaId === areaId
 		)
 	}
 
 	// Changing to new video
-	const handleChangeCity = (city) => {
-		let newVideo = videos.find(
-			video => video.city === city
-		)
-		_setVideo({
-			...newVideo,
-			isMuted: true,
-			showNoise: true,
-			wasMuted: video.isMuted,
+	const handleChangeCity = (cityId) => {
+		setCity(cities.find(city => city.id === cityId))
+		const newAreas = areas.filter(area => area.cityId === cityId)
+		const newArea = newAreas[0]
+
+		setCityAreas(newAreas)
+		setArea(newAreas[0])
+
+		const areaRadios = getRadios(newArea.id)
+		if (areaRadios.length) _setRadio({ ...areaRadios[0] })
+		else _setRadio({
+			url: '', isPlaying: false,
+			name: 'No radio in this area'
 		})
-		_setRadio({
-			...getRadios(
-				newVideo.id
-			)[0]
-		})
+
+		if (player) player.seekTo(40)
 	}
 
-	const handleYTPlayerOnReady = () => {
+	const handleChangeArea = areaId => {
+		setArea(cityAreas.find(area => area.id === areaId))
+
+		const areaRadios = getRadios(areaId)
+		if (areaRadios.length) _setRadio({ ...areaRadios[0] })
+		else _setRadio({
+			url: '', isPlaying: false,
+			name: 'No radio in this area'
+		})
+
+		if (player) player.seekTo(40)
+	}
+
+	const handleYTPlayerOnReady = player => {
+		setPlayer(player)
+		player.seekTo(40)
 		_setVideo({
 			isPlaying: true,
 			isMuted: video.wasMuted,
@@ -104,10 +122,12 @@ const App = () => {
 
 	const handleRadioChange = ({ isNext, isPrev }) => {
 
-		const cityRadios = getRadios(video.id)
+		const areaRadios = getRadios(area.id)
+
+		if (!areaRadios.length) return
 
 		// Finding index of currently playing radio index
-		let cIndex = cityRadios.findIndex(r => r.id === radio.id)
+		let cIndex = areaRadios.findIndex(r => r.id === radio.id)
 
 		// Returning is there is no radio found
 		if (cIndex === -1) return
@@ -116,10 +136,10 @@ const App = () => {
 		cIndex = isPrev ? cIndex - 1 : isNext ? cIndex + 1 : cIndex
 
 		// Fixing current index if it goes out of bound of radios array
-		cIndex = cIndex < 0 ? cityRadios.length - 1 : cIndex >= cityRadios.length ? 0 : cIndex
+		cIndex = cIndex < 0 ? areaRadios.length - 1 : cIndex >= areaRadios.length ? 0 : cIndex
 
 		// Setting the new radio of current index
-		_setRadio({ ...cityRadios[cIndex], isLoading: true })
+		_setRadio({ ...areaRadios[cIndex], isLoading: true })
 	}
 
 	return (
@@ -131,7 +151,13 @@ const App = () => {
 				radio={radio}
 				video={video}
 
+				city={city}
+				area={area}
+				cities={cities}
+				areas={cityAreas}
+
 				onChangeCity={handleChangeCity}
+				onChangeArea={handleChangeArea}
 				onPlaybackRate={playbackRate => _setVideo({ playbackRate })}
 				onStreetNoise={() => _setVideo({ isMuted: !video.isMuted })}
 
@@ -145,25 +171,25 @@ const App = () => {
 				<ReactPlayer
 					width='100%'
 					height='100%'
-					url={video.url}
+					url={area.video}
 					loop={video.loop}
 					volume={video.volume}
 					muted={video.isMuted}
 					playing={video.isPlaying}
 					controls={video.controls}
+					onReady={handleYTPlayerOnReady}
 					playbackRate={video.playbackRate}
 					onBuffer={() => _setVideo({ showNoise: true })}
 					onBufferEnd={() => _setVideo({ showNoise: false })}
-					onReady={handleYTPlayerOnReady}
 				/>
 				{video.showNoise && <div className='yt-player__noise' />}
 			</div>
 
 			<ReactPlayer
 				url={radio.url}
-				playing={radio.isPlaying}
-				volume={radio.volume}
 				muted={radio.isMuted}
+				volume={radio.volume}
+				playing={radio.isPlaying}
 				onBuffer={() => _setRadio({ isLoading: true })}
 				onBufferEnd={() => _setRadio({ isLoading: false })}
 				onReady={() => _setRadio({ isLoading: false, isPlaying: true })}

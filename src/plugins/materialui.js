@@ -1,5 +1,5 @@
 const mui = {
-	getTheme(darkMode) {
+	getTheme() {
 		return {
 			palette: {
 				primary: {
@@ -14,7 +14,7 @@ const mui = {
 					dark: '#d500f9',
 					contrastText: '#fff',
 				},
-				type: darkMode ? 'dark' : 'light',
+				type: 'dark',
 			}
 		}
 	}

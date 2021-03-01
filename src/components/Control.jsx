@@ -10,7 +10,7 @@ import {
 	IconButton,
 	Slider,
 	Button,
-	CircularProgress
+	//CircularProgress
 } from '@material-ui/core';
 
 import {
@@ -28,24 +28,22 @@ import '../assets/scss/components/control.scss'
 const Control = ({
 	radio, video,
 
+	city, area,
+	cities, areas,
+
 	onStreetNoise, onChangeCity,
-	onPlaybackRate,
+	onPlaybackRate, onChangeArea,
 
 	onRadioNext, onRadioPrev,
 	onRadioVolume, onRadioTogglePlay
 }) => {
 
-	const [area, setArea] = useState(0);
 	const [playbackRates] = useState([
 		{ value: 1, text: '1x' },
 		{ value: 1.5, text: '1.5x' },
 		{ value: 2, text: '2x' },
 	]);
 	const [isVisible, setIsVisible] = useState(true)
-
-	const handleChangeArea = (event) => {
-		setArea(event.target.value);
-	};
 
 	return (
 		<div className='control relative'>
@@ -70,7 +68,12 @@ const Control = ({
 								<div className='flex items-center'>
 									<Typography
 										variant='body2'
-										className='flex-none'
+										color='inherit'
+										target='_blank'
+										href={area.video}
+										rel="noopener noreferrer"
+										className='flex-none td-none'
+										variantMapping={{ 'body2': 'a' }}
 										style={{ width: '40%' }}
 									>
 										Video Source
@@ -81,13 +84,13 @@ const Control = ({
 											label="City"
 											id="select-city"
 											labelId="select-city-label"
-											value={video.city}
-											onChange={e => onChangeCity(e.target.value)}
+											value={city.id}
+											onChange={e => onChangeCity(+e.target.value)}
 										>
-											{video.cities.map((city, cityIndex) => (
+											{cities.map(city => (
 												<MenuItem
-													key={cityIndex}
-													value={city.name}
+													key={city.id}
+													value={city.id}
 												>
 													{city.name}
 												</MenuItem>
@@ -108,11 +111,18 @@ const Control = ({
 										<Select
 											labelId="select-area-label"
 											id="select-area"
-											value={area}
-											onChange={handleChangeArea}
+											value={area.id}
+											onChange={e => onChangeArea(+e.target.value)}
 											label="Area"
 										>
-											<MenuItem value={0}>Where to go?</MenuItem>
+											{areas.map(area => (
+												<MenuItem
+													key={area.id}
+													value={area.id}
+												>
+													{area.name}
+												</MenuItem>
+											))}
 										</Select>
 									</FormControl>
 								</div>
@@ -180,19 +190,19 @@ const Control = ({
 												<SkipPreviousIcon />
 											</IconButton>
 										</div>
-										{!radio.isLoading
-											? <IconButton
-												size='small'
-												aria-label="play"
-												onClick={() => onRadioTogglePlay()}
-											>
-												{radio.isPlaying
-													? <PauseIcon fontSize='large' />
-													: <PlayArrowIcon fontSize='large' />
-												}
-											</IconButton>
-											: <CircularProgress size={35} />
-										}
+										{/* {!radio.isLoading ?  */}
+										<IconButton
+											size='small'
+											aria-label="play"
+											onClick={() => onRadioTogglePlay()}
+										>
+											{radio.isPlaying
+												? <PauseIcon fontSize='large' />
+												: <PlayArrowIcon fontSize='large' />
+											}
+										</IconButton>
+										{/* : <CircularProgress size={35} />
+										} */}
 										<div className="flex-none flex items-center">
 											<IconButton
 												size='small'

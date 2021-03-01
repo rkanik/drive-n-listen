@@ -1,85 +1,71 @@
+export const cities = [
+	{ id: 1, name: 'London', country: 'UK' },
+	{ id: 2, name: 'Paris', country: 'France' },
+	{ id: 3, name: 'Amsterdam', country: 'Netherlands' },
+]
+
+export const areas = [
+	{
+		id: 1, cityId: 1, name: 'Oxford Street',
+		video: 'https://www.youtube.com/watch?v=w7CTOkNWemc',
+	},
+	{
+		id: 2, cityId: 1, name: 'SOHO',
+		video: 'https://www.youtube.com/watch?v=__Eo-dvEH7g'
+	},
+	{
+		id: 3, cityId: 1, name: 'BOROUGH MARKET',
+		video: 'https://www.youtube.com/watch?v=JulMukjTre4'
+	},
+	{
+		id: 4, cityId: 1, name: 'Hampstead Heath',
+		video: 'https://www.youtube.com/watch?v=c1quf4AllEw'
+	},
+	{
+		id: 5, cityId: 1, name: 'Regent Street',
+		video: 'https://www.youtube.com/watch?v=8nfd-prM51g'
+	},
+	{
+		id: 6, cityId: 1, name: 'Chelsea',
+		video: 'https://www.youtube.com/watch?v=UrKpC6x7UL0'
+	},
+	{
+		id: 7, cityId: 2, name: 'Gardens of Versailles',
+		video: 'https://www.youtube.com/watch?v=qh8xNjt9wMA'
+	},
+	{
+		id: 8, cityId: 2, name: 'Shopping District',
+		video: 'https://www.youtube.com/watch?v=1Sd1IJKFXzM'
+	},
+	{
+		id: 9, cityId: 2, name: 'Shopping Arcades',
+		video: 'https://www.youtube.com/watch?v=W5i0QdBlX1c'
+	},
+	{
+		id: 10, cityId: 2, name: 'Night walk',
+		video: 'https://www.youtube.com/watch?v=Ksya1BJtu4E'
+	},
+	{
+		id: 11, cityId: 2, name: 'Latin Quarter',
+		video: 'https://www.youtube.com/watch?v=_dRjY9gMcxE'
+	},
+	{
+		id: 11, cityId: 3, name: 'City Drive',
+		video: 'https://www.youtube.com/watch?v=_nS2FvZ0h2g'
+	}
+]
+
 export const radios = [
 	{
 		id: 1,
-		cityId: 1,
-		name: 'Radio10',
+		areaId: 1,
+		name: 'Radio 10',
 		url: 'https://21633.1ive.streamtheworld.com/RADI010.mp3'
 	},
 	{
 		id: 2,
-		cityId: 1,
-		name: 'NH Radio',
-		url: 'https://ice.cr2.streamzilla.xlcdn.com:8000/sz%3Dnhnieuws%3DNHRadio_mp3?token=a51cea67c3a470'
-	},
-	{
-		id: 3,
-		cityId: 1,
-		name: 'Radio 100% NL',
-		url: 'https://21313.1ive.streamtheworld.com/100PNL_MP3_SC'
-	},
-	{
-		id: 4,
-		cityId: 2,
-		name: 'SLAM!',
-		url: 'https://20423.1ive.streamtheworld.com/SLAM_MP3.mp3'
-	},
-	{
-		id: 5,
-		cityId: 2,
-		name: 'Radio Veronica',
-		url: 'https://20873.1ive.streamtheworld.com/VERONICA.mp3'
-	},
-	{
-		id: 6,
-		cityId: 3,
-		name: 'Radio BB 2',
-		url: 'https://icecast.omroep.nl/radio2—bb—mp3'
-	},
-	{
-		id: 7,
-		cityId: 1,
-		name: 'Radio BB 4',
-		url: 'https://icecast.omroep.nl/radio4—bb—mp3'
-	},
-	{
-		id: 8,
-		cityId: 2,
-		name: 'NPO Radio 2',
-		url: 'https://icecast.omroep.nl/funx—amsterdam—bb—mp3'
-	},
-	{
-		id: 9,
-		cityId: 2,
-		name: 'FM BB',
-	},
-	{
-		id: 10,
-		cityId: 3,
-		name: 'Radio BB 1',
-		url: 'https://icecast.omroep.nl/radio1—bb—mp3'
-	},
-	{
-		id: 11,
-		cityId: 3,
-		name: 'NPO F',
-		url: 'https://22183.1ive.streamtheworld.com/RADI0538.mp3'
-	}
-]
-
-export const videos = [
-	{
-		id: 1,
-		city: 'Amsterdam, Netherlands',
-		url: 'https://www.youtube.com/watch?v=_nS2FvZ0h2g'
-	},
-	{
-		id: 2,
-		city: 'Antalya, Turkey',
-		url: 'https://www.youtube.com/watch?v=pPQo2mgcdkg'
-	},
-	{
-		id: 3,
-		city: 'Barcelona, Spain',
-		url: 'https://www.youtube.com/watch?v=dWB5_MJmZ-U'
+		areaId: 11,
+		name: 'Tune In',
+		url: 'https://tunein.com/embed/player/s266113/'
 	}
 ]
